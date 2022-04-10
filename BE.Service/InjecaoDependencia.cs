@@ -22,12 +22,13 @@ public class InjecaoDependencia
         services.AddScoped<ILocalizacaoService, LocalizacaoService>();
         services.AddScoped<IMovimentacaoService, MovimentacaoService>();
         services.AddScoped<IPedidoService, PedidoService>();
+        services.AddScoped<IVendasContext, VendasContext>();
         services.AddScoped<IProdutoService, ProdutoService>();
         services.AddScoped<IUnidadeMedidaService, UnidadeMedidaService>();
         services.AddScoped<IUsuarioService, UsuarioService>();
 
         services.AddDbContext<BoxEvenContext>();
-        services.AddScoped<IProvedorDados, ProvedorDados>();
+        services.AddSingleton<IProvedorDados, ProvedorDados>();
 
         //ADO
         //services.AddScoped<ILocalizacaoRepository, ADOLocalizacaoRepository>();

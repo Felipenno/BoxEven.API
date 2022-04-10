@@ -8,9 +8,8 @@ namespace BE.Domain.Enum;
 
 public enum StatusPedido
 {
-    Novo,
-    Enviado,
-    Concluido,
-    Cancelado
+    Novo = 1,
+    Concluido = 2,
+    Cancelado = 3
 }
 

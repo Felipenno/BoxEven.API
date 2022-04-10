@@ -1,4 +1,6 @@
 ﻿using BE.Domain.Entities;
+using BE.Domain.Enum;
+using BE.Domain.Interfaces.Repository;
 using BE.Domain.Interfaces.Service;
 using System;
 using System.Collections.Generic;
@@ -10,14 +12,26 @@ namespace BE.Service;
 
 public class PedidoService : IPedidoService
 {
-    public Task<bool> AtualizarStatus()
+    private readonly IVendasContext _vendasContext;
+
+    public PedidoService(IVendasContext vendasContext)
     {
-        throw new NotImplementedException();
+        _vendasContext = vendasContext;
     }
 
-    public Task<List<Pedido>> ListasPedidosSeparacao()
+    public async Task AtualizarStatus(string id, StatusPedido status)
     {
-        throw new NotImplementedException();
+       await _vendasContext.AlterarStatusPedidoAsync(id, status);
+    }
+
+    public async Task<List<Pedido>> ListarPedidosPorFiltroAsync(StatusPedido status, DateTime conclusao)
+    {
+        return await _vendasContext.ListarPedidosPorFiltroAsync(status, conclusao);
+    }
+
+    public async Task<List<Pedido>> ListasPedidosSeparacao()
+    {
+        return await _vendasContext.ListarPedidos();
     }
 }
 

@@ -1,3 +1,5 @@
+using BE.Domain.Model;
+using BE.Infra;
 using BE.Service;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
@@ -11,6 +13,9 @@ builder.Services.AddControllers().AddJsonOptions(opt => opt.JsonSerializerOption
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(x => x.SwaggerDoc("v1", new OpenApiInfo { Title = "BoxEven API", Version = "V1"}));
 builder.Services.AddCors();
+
+builder.Services.Configure<VendasContextSettings>(builder.Configuration.GetSection("VendasContext"));
+builder.Services.AddHttpClient<VendasContext>();
 
 InjecaoDependencia.Configurar(builder.Services);
 

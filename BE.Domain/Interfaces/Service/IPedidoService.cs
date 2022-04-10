@@ -1,15 +1,11 @@
 ﻿using BE.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BE.Domain.Enum;
 
 namespace BE.Domain.Interfaces.Service;
 
 public interface IPedidoService
 {
     Task<List<Pedido>> ListasPedidosSeparacao();
-    Task<bool> AtualizarStatus();
+    Task<List<Pedido>> ListarPedidosPorFiltroAsync(StatusPedido status, DateTime conclusao);
+    Task AtualizarStatus(string id, StatusPedido status);
 }
-

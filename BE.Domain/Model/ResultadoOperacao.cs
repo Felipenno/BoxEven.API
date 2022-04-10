@@ -7,7 +7,7 @@ public class ResultadoOperacao
 
     public ResultadoOperacao(){}
 
-    public ResultadoOperacao(bool sucesso, string? erroMsg = null )
+    public ResultadoOperacao(bool sucesso, string? erroMsg = null)
     {
         Sucesso = sucesso;
         ErroMsg = erroMsg;

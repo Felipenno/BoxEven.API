@@ -1,14 +1,10 @@
 ﻿using BE.Domain.Enum;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BE.Domain.Entities;
 
 public class Pedido
 {
+    public string? Id { get; private set; }
     public int Numero { get; private set; }
     public string Vendedor { get; private set; }
     public StatusPedido Status { get; private set; }
@@ -16,8 +12,11 @@ public class Pedido
     public DateTime Conclusao { get; private set; }
     public List<Produto> Produtos { get; private set; }
 
-    public Pedido(int numero, string vendedor, StatusPedido status, DateTime criacao, DateTime conclusao, List<Produto> produtos)
+    public Pedido() {}
+
+    public Pedido(string? id, int numero, string vendedor, StatusPedido status, DateTime criacao, DateTime conclusao, List<Produto> produtos)
     {
+        Id = id;
         Numero = numero;
         Vendedor = vendedor;
         Status = status;
@@ -26,4 +25,3 @@ public class Pedido
         Produtos = produtos;
     }
 }
-
