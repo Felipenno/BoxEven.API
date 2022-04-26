@@ -14,8 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(x => x.SwaggerDoc("v1", new OpenApiInfo { Title = "BoxEven API", Version = "V1"}));
 builder.Services.AddCors();
 
-builder.Services.Configure<VendasContextSettings>(builder.Configuration.GetSection("VendasContext"));
-builder.Services.AddHttpClient<VendasContext>();
+builder.Services.Configure<VendasInfraServicesSettings>(builder.Configuration.GetSection("VendasContext"));
+builder.Services.AddHttpClient<VendasInfraServices>();
 
 InjecaoDependencia.Configurar(builder.Services);
 

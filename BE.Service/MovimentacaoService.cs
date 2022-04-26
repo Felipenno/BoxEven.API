@@ -28,14 +28,14 @@ public class MovimentacaoService : IMovimentacaoService
 
     public async Task<List<MovimentacaoDto>> ListarMovimentacaoesAsync()
     {
-        List<MovimentacaoDto> movimentacaoDtoList = new List<MovimentacaoDto>();
+        var movimentacaoDtoList = new List<MovimentacaoDto>();
 
         var movimentacoes = await _movimentacaoRepository.ListarTodosAsync();
         if (movimentacoes != null)
         {
             foreach (var mo in movimentacoes)
             {
-                MovimentacaoDto movimentacaoDto = new MovimentacaoDto()
+                var movimentacaoDto = new MovimentacaoDto()
                 {
                     MovimentacaoId = mo.MovimentacaoId,
                     Quantidade = mo.Quantidade,

@@ -19,6 +19,6 @@ public class ProvedorDados : IProvedorDados
 
     public string StringConexao()
     {
-        return _config.GetConnectionString("DBConnection");
+        return _config.GetConnectionString("SqlServerConnection");
     }
 }

@@ -1,4 +1,5 @@
-﻿using BE.Domain.Interfaces.Repository;
+﻿using BE.Domain.Interfaces;
+using BE.Domain.Interfaces.Repository;
 using BE.Domain.Interfaces.Service;
 using BE.Infra;
 using BE.Infra.ADO;
@@ -22,10 +23,11 @@ public class InjecaoDependencia
         services.AddScoped<ILocalizacaoService, LocalizacaoService>();
         services.AddScoped<IMovimentacaoService, MovimentacaoService>();
         services.AddScoped<IPedidoService, PedidoService>();
-        services.AddScoped<IVendasContext, VendasContext>();
+        services.AddScoped<IVendasInfraServices, VendasInfraServices>();
         services.AddScoped<IProdutoService, ProdutoService>();
         services.AddScoped<IUnidadeMedidaService, UnidadeMedidaService>();
         services.AddScoped<IUsuarioService, UsuarioService>();
+        services.AddScoped<IArquivosService, ArquivosService>();
 
         services.AddDbContext<BoxEvenContext>();
         services.AddSingleton<IProvedorDados, ProvedorDados>();

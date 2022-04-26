@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BE.Domain.Interfaces.Repository;
 
-public interface IVendasContext
+public interface IVendasInfraServices
 {
     Task<List<Pedido>> ListarPedidos();
     Task<List<Pedido>> ListarPedidosPorFiltroAsync(StatusPedido status, DateTime conclusao);

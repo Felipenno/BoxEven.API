@@ -9,6 +9,7 @@ namespace BE.Domain.Dtos;
 
 public class PedidoDto
 {
+    public string? Id { get; set; }
     public int Numero { get; set; }
     public string Vendedor { get; set; }
     public StatusPedido Status { get; set; }
@@ -16,4 +17,3 @@ public class PedidoDto
     public DateTime Conclusao { get; set; }
     public List<ProdutoListarDto> Produtos { get; set; }
 }
-

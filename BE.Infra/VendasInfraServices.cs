@@ -12,12 +12,12 @@ using Newtonsoft.Json;
 
 namespace BE.Infra;
 
-public class VendasContext : IVendasContext
+public class VendasInfraServices : IVendasInfraServices
 {
-    private readonly IOptions<VendasContextSettings> _vendasContextSettings;
+    private readonly IOptions<VendasInfraServicesSettings> _vendasContextSettings;
     private readonly IHttpClientFactory _httpClient;
 
-    public VendasContext(IHttpClientFactory httpClient, IOptions<VendasContextSettings> vendasContextSettings )
+    public VendasInfraServices(IHttpClientFactory httpClient, IOptions<VendasInfraServicesSettings> vendasContextSettings )
     { 
         _vendasContextSettings = vendasContextSettings;
         _httpClient = httpClient;
@@ -33,8 +33,8 @@ public class VendasContext : IVendasContext
         if (response.IsSuccessStatusCode)
         {
             var dados = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<List<PedidoModel>>(dados);
-            return PedidoModel.ToPedidoEntityList(result);
+            var result = JsonConvert.DeserializeObject<List<VendasInfraServiceModel>>(dados);
+            return VendasInfraServiceModel.ToPedidoEntityList(result);
 
             //using var dados = await response.Content.ReadAsStreamAsync();
             //var result = await JsonSerializer.DeserializeAsync<List<Pedido>>(dados);
@@ -55,8 +55,8 @@ public class VendasContext : IVendasContext
         if (response.IsSuccessStatusCode)
         {
             var dados = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<List<PedidoModel>>(dados);
-            return PedidoModel.ToPedidoEntityList(result);
+            var result = JsonConvert.DeserializeObject<List<VendasInfraServiceModel>>(dados);
+            return VendasInfraServiceModel.ToPedidoEntityList(result);
         }
 
         return new List<Pedido>();

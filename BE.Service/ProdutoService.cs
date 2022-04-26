@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BE.Domain.Dtos;
 using BE.Domain.Entities;
+using BE.Domain.Interfaces;
 using BE.Domain.Interfaces.Repository;
 using BE.Domain.Interfaces.Service;
 
@@ -10,12 +11,14 @@ public class ProdutoService : IProdutoService
 {
     private readonly IProdutoRepository _produtoRepository;
     private readonly ILocalizacaoRepository _localizacaoRepository;
+    private readonly IArquivosService _arquivosService;
     private readonly IMapper _mapper;
 
-    public ProdutoService(IProdutoRepository produtoRepository, ILocalizacaoRepository localizacaoRepository, IMapper mapper)
+    public ProdutoService(IProdutoRepository produtoRepository, ILocalizacaoRepository localizacaoRepository, IArquivosService arquivosService, IMapper mapper)
     {
         _produtoRepository = produtoRepository;
         _localizacaoRepository = localizacaoRepository;
+        _arquivosService = arquivosService;
         _mapper = mapper;
     }
 
@@ -28,43 +31,7 @@ public class ProdutoService : IProdutoService
         {
             foreach (Produto item in produtos)
             {
-                string imagemBase64 = null;
-
-                if (!(string.IsNullOrEmpty(item.ImagemNome) || string.IsNullOrEmpty(item.ImagemTipo)))
-                {
-                    string nomeImagem = item.ImagemNome;
-                    string metaDados = item.ImagemTipo;
-
-                    string caminhoImagem = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Images", nomeImagem);
-
-                    if (File.Exists(caminhoImagem))
-                    {
-                        byte[] imgBytes = await File.ReadAllBytesAsync(caminhoImagem);
-
-                        imagemBase64 = metaDados + Convert.ToBase64String(imgBytes);
-
-                        //using (var fileStream = new FileStream(caminhoImagem, FileMode.Open, FileAccess.Read))
-                        //{
-                        //    byte[] bytes = new byte[fileStream.Length];
-                        //    int numBytesToRead = (int)fileStream.Length;
-                        //    int numBytesRead = 0;
-                        //    while (numBytesToRead > 0)
-                        //    {
-                        //        // Read may return anything from 0 to numBytesToRead.
-                        //        int n = fileStream.Read(bytes, numBytesRead, numBytesToRead);
-
-                        //        // Break when the end of the file is reached.
-                        //        if (n == 0)
-                        //            break;
-
-                        //        numBytesRead += n;
-                        //        numBytesToRead -= n;
-                        //    }
-
-                        //    imagemBase64 = metaDados + Convert.ToBase64String(bytes);
-                        //}
-                    }
-                }
+                string imagemBase64 = await _arquivosService.RecuperarImagemProduto(item.ImagemNome, item.ImagemTipo);
 
                 var produtoDto = new ProdutoListarDto()
                 {
@@ -114,22 +81,7 @@ public class ProdutoService : IProdutoService
         {
             foreach (Produto item in produtos)
             {
-                string imagemBase64 = null;
-
-                if (!(string.IsNullOrEmpty(item.ImagemNome) || string.IsNullOrEmpty(item.ImagemTipo)))
-                {
-                    string nomeImagem = item.ImagemNome;
-                    string metaDados = item.ImagemTipo;
-
-                    string caminhoImagem = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Images", nomeImagem);
-
-                    if (File.Exists(caminhoImagem))
-                    {
-                        byte[] imgBytes = await File.ReadAllBytesAsync(caminhoImagem);
-
-                        imagemBase64 = metaDados + Convert.ToBase64String(imgBytes);
-                    }
-                }
+                string imagemBase64 = await _arquivosService.RecuperarImagemProduto(item.ImagemNome, item.ImagemTipo);
 
                 var produtoDto = new ProdutoListarDto()
                 {
@@ -177,22 +129,7 @@ public class ProdutoService : IProdutoService
         var produto = await _produtoRepository.ListarPorIdAsync(produtoId);
         if (produto != null)
         {
-            string imagemBase64 = null;
-
-            if (!(string.IsNullOrEmpty(produto.ImagemNome) || string.IsNullOrEmpty(produto.ImagemTipo)))
-            {
-                string nomeImagem = produto.ImagemNome;
-                string metaDados = produto.ImagemTipo;
-
-                string caminhoImagem = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Images", nomeImagem);
-
-                if (File.Exists(caminhoImagem))
-                {
-                    byte[] imgBytes = await File.ReadAllBytesAsync(caminhoImagem);
-
-                    imagemBase64 = metaDados + Convert.ToBase64String(imgBytes);
-                }
-            }
+            string imagemBase64 = await _arquivosService.RecuperarImagemProduto(produto.ImagemNome, produto.ImagemTipo);
 
             produtoDto = new ProdutoListarDto();
             produtoDto.ProdutoId = produto.ProdutoId;
@@ -248,15 +185,7 @@ public class ProdutoService : IProdutoService
 
             if (concluido)
             {
-                byte[] imagemBytes = Convert.FromBase64String(base64Imagem);
-
-                using (var fileStream = new FileStream(caminhoImagem, FileMode.CreateNew))
-                {
-                    for (int i = 0; i < imagemBytes.Length; i++)
-                    {
-                        fileStream.WriteByte(imagemBytes[i]);
-                    }
-                }
+                _arquivosService.CriarImagemProduto(caminhoImagem, base64Imagem);
             }
 
             return concluido;
@@ -294,26 +223,7 @@ public class ProdutoService : IProdutoService
 
             if (concluido)
             {
-                if (!(string.IsNullOrEmpty(produtoExistente.ImagemNome) || string.IsNullOrEmpty(produtoExistente.ImagemTipo)))
-                {
-                    string nomeImagemAnterior = produtoExistente.ImagemNome;
-                    string caminhoImagemAnterior = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Images", nomeImagemAnterior);
-
-                    if (File.Exists(caminhoImagemAnterior))
-                    {
-                        File.Delete(caminhoImagemAnterior);
-                    }
-                }
-
-                byte[] imagemBytes = Convert.FromBase64String(base64Imagem);
-
-                using (var fileStream = new FileStream(caminhoImagem, FileMode.CreateNew))
-                {
-                    for (int i = 0; i < imagemBytes.Length; i++)
-                    {
-                        fileStream.WriteByte(imagemBytes[i]);
-                    }
-                }
+                _arquivosService.TrocarImagemProduto(caminhoImagem, base64Imagem, produtoExistente.ImagemNome);
 
                 if (produtoExistente.Localizacoes != null || produtoDto.Localizacoes != null)
                 {
@@ -343,13 +253,7 @@ public class ProdutoService : IProdutoService
         {
             if (!(string.IsNullOrEmpty(produtoExistente.ImagemNome) || string.IsNullOrEmpty(produtoExistente.ImagemTipo)) && string.IsNullOrEmpty(produtoDto.Imagem))
             {
-                string nomeImagemAnterior = produtoExistente.ImagemNome;
-                string caminhoImagemAnterior = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Images", nomeImagemAnterior);
-
-                if (File.Exists(caminhoImagemAnterior))
-                {
-                    File.Delete(caminhoImagemAnterior);
-                }
+                _arquivosService.RemoverImagemProduto(produtoExistente.ImagemNome);
             }
 
             if (produtoExistente.Localizacoes != null || produtoDto.Localizacoes != null)

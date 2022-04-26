@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BE.Domain.Model;
 
-public class PedidoModel
+public class VendasInfraServiceModel
 {
     public string? Id { get; set; }
     public int Numero { get; set; }
@@ -18,7 +18,7 @@ public class PedidoModel
     public DateTime Conclusao { get; set; }
     public List<ProdutoModel> Produtos { get; set; }
 
-    public static List<Pedido> ToPedidoEntityList(List<PedidoModel> pedidoModel)
+    public static List<Pedido> ToPedidoEntityList(List<VendasInfraServiceModel> pedidoModel)
     {
         var pedidos = new List<Pedido>();
 
