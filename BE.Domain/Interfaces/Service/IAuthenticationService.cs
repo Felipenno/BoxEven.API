@@ -11,4 +11,3 @@ public interface IAuthenticationService
 {
     string GerarToken(UsuarioDto usuario);
 }
-

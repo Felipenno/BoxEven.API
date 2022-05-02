@@ -1,4 +1,5 @@
-﻿using BE.Domain.Enum;
+﻿using BE.Domain.Dtos;
+using BE.Domain.Enum;
 using BE.Domain.Interfaces.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -45,14 +46,14 @@ public class PedidoController : ControllerBase
         }
     }
 
-    [HttpPatch("{id}")]
-    public async Task<IActionResult> AlterarStatusPedido([FromRoute] string id, [FromBody] StatusPedido status)
+    [HttpPatch]
+    public async Task<IActionResult> AlterarStatusPedido([FromBody] PedidoAlterarStatusDto pedido)
     {
         try
         {
-            await _PedidoService.AtualizarStatus(id, status);
+            await _PedidoService.AtualizarStatus(pedido);
 
-            return Ok();
+            return NoContent();
         }
         catch (Exception ex)
         {

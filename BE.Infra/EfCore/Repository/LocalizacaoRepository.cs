@@ -13,11 +13,6 @@ public class LocalizacaoRepository : ILocalizacaoRepository
 {
     private readonly BoxEvenContext _boxEvenContext;
 
-    public LocalizacaoRepository(BoxEvenContext boxEvenContext)
-    {
-        _boxEvenContext = boxEvenContext;
-    }
-
     public Task<bool> AdicionarAsync(Localizacao localizacao)
     {
         throw new NotImplementedException();
@@ -53,7 +48,7 @@ public class LocalizacaoRepository : ILocalizacaoRepository
         throw new NotImplementedException();
     }
 
-    public Task<bool> ProdutoLimiteAtingidoAsync(int? produtoId)
+    public Task<bool> ProdutoLimiteAlocacaoAtingidoAsync(int? produtoId)
     {
         throw new NotImplementedException();
     }

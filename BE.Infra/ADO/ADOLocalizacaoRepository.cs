@@ -12,11 +12,6 @@ public class ADOLocalizacaoRepository : ADOHelper, ILocalizacaoRepository
 {
     private readonly IProvedorDados _provedorDados;
 
-    public ADOLocalizacaoRepository(IProvedorDados provedorDados)
-    {
-        _provedorDados = provedorDados;
-    }
-
     public Task<bool> AdicionarAsync(Localizacao localizacao)
     {
         throw new NotImplementedException();
@@ -52,7 +47,7 @@ public class ADOLocalizacaoRepository : ADOHelper, ILocalizacaoRepository
         throw new NotImplementedException();
     }
 
-    public Task<bool> ProdutoLimiteAtingidoAsync(int? produtoId)
+    public Task<bool> ProdutoLimiteAlocacaoAtingidoAsync(int? produtoId)
     {
         throw new NotImplementedException();
     }

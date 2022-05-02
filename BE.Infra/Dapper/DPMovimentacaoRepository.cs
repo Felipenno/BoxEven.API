@@ -35,7 +35,7 @@ public class DPMovimentacaoRepository : IMovimentacaoRepository
             parametros.Add("@TIPO", movimentacao.Tipo, DbType.String, ParameterDirection.Input);
             parametros.Add("@QUANTIDADE", movimentacao.Quantidade, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@JUSTIFICATIVA", movimentacao.Justificativa, DbType.String, ParameterDirection.Input);
-            parametros.Add("@DATA_OPERACAO", movimentacao.DataOperacao, DbType.Date, ParameterDirection.Input);
+            parametros.Add("@DATA_OPERACAO", movimentacao.DataOperacao, DbType.DateTime, ParameterDirection.Input);
 
             int linhasAfetadas = await conexao.ExecuteAsync(query, parametros);
             if (linhasAfetadas <= 0)

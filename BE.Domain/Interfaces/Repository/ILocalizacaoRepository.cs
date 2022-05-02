@@ -11,7 +11,7 @@ public interface ILocalizacaoRepository
     Task<bool> AlocarProdutoAsync(List<int> localizacoesId, int produtoId);
     Task<bool> DesalocarProdutoAsync(List<int> localizacoesId);
     Task<bool> RemoveAsync(int localizacaoId);
-    Task<bool> ProdutoLimiteAtingidoAsync(int? produtoId);
+    Task<bool> ProdutoLimiteAlocacaoAtingidoAsync(int? produtoId);
     Task<Localizacao> ListarPorIdAsync(int id);
     Task<List<Localizacao>> ListarTodosDisponiveisAsync();
     Task<List<Localizacao>> ListarTodosAsync(int? produtoId,string? andar, int? corredor, char? lado, int? prateleira);

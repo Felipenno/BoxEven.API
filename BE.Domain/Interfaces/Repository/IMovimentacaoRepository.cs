@@ -13,4 +13,3 @@ public interface IMovimentacaoRepository
     Task<Movimentacao> ListarPorIdAsync(int id);
     Task<List<Movimentacao>> ListarTodosAsync();
 }
-

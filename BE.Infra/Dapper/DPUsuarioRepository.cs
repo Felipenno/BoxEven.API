@@ -109,7 +109,7 @@ public class DPUsuarioRepository : IUsuarioRepository
         parametros.Add("@senha", senha, DbType.String, ParameterDirection.Input);
 
         using IDbConnection conexao = _provedorDados.BoxEvenConexao();
-        return await conexao.QueryFirstAsync<Usuario>(query, parametros);
+        return await conexao.QueryFirstOrDefaultAsync<Usuario>(query, parametros);
     }
 
     public Task<bool> VerificarCodigo(string codigo)

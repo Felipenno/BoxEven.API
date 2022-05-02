@@ -345,28 +345,19 @@ public class DPLocalizacaoRepository : ILocalizacaoRepository
         return false;
     }
 
-    public async Task<bool> ProdutoLimiteAtingidoAsync(int? produtoId)
+    public async Task<bool> ProdutoLimiteAlocacaoAtingidoAsync(int? produtoId)
     {
         string query =
         @"
-           SELECT 
-              [ID_LOCALIZACAO] AS LocalizacaoId
-              ,[FK_IDPRODUTO] AS ProdutoId
-              ,[ANDAR]
-              ,[CORREDOR]
-              ,[LADO]
-              ,[PRATELEIRA]
-              ,[VAO]
-            FROM [BD_BOXEVEN].[dbo].[TB_LOCALIZACAO]
-            WHERE FK_IDPRODUTO = @PRODUTOID
+            SELECT COUNT(*) FROM [BD_BOXEVEN].[dbo].[TB_LOCALIZACAO] WHERE FK_IDPRODUTO = @PRODUTOID;
         ";
 
         var parametros = new DynamicParameters();
         parametros.Add("@PRODUTOID", produtoId, DbType.Int32, ParameterDirection.Input);
 
         using IDbConnection conexao = _provedorDados.BoxEvenConexao();
-        var resultado = await conexao.QueryAsync<Localizacao>(query, parametros);
-        if (resultado.Count() >= 3)
+        var resultado = await conexao.QueryFirstOrDefaultAsync<int>(query, parametros);
+        if (resultado >= 3)
         {
             return true;
         }

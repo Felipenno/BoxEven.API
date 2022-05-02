@@ -13,5 +13,3 @@ public interface IMovimentacaoService
     Task<MovimentacaoDto> ListarPorIdAsync(int id);
     Task<List<MovimentacaoDto>> ListarMovimentacaoesAsync();
 }
-
-

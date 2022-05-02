@@ -10,4 +10,3 @@ public interface ICryptographyService
 {
     string EncriptarSenha(string passWord);
 }
-

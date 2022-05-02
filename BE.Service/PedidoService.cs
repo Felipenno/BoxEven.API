@@ -16,16 +16,45 @@ public class PedidoService : IPedidoService
 {
     private readonly IVendasInfraServices _vendasContext;
     private readonly IArquivosService _arquivosService;
+    private readonly IMovimentacaoService _movimentacoService;
 
-    public PedidoService(IVendasInfraServices vendasContext, IArquivosService arquivosService)
+    public PedidoService(IVendasInfraServices vendasContext, IArquivosService arquivosService, IMovimentacaoService movimentacoService)
     {
         _arquivosService = arquivosService;
         _vendasContext = vendasContext;
+        _movimentacoService = movimentacoService;
     }
 
-    public async Task AtualizarStatus(string id, StatusPedido status)
+    public async Task AtualizarStatus(PedidoAlterarStatusDto pedido)
     {
-        await _vendasContext.AlterarStatusPedidoAsync(id, status);
+        if(pedido.StatusPedido == StatusPedido.Concluido)
+        {
+            var movimentacaoDto = new MovimentacaoCriarDto()
+            {
+                UsuarioId = pedido.IdUsuario,
+                Justificativa = $"Saída automática: {pedido.NumeroPedido}",
+                Tipo = "SAIDA"
+            };
+
+            bool concluido = false;
+
+            foreach(var item in pedido.Produtos)
+            {
+                movimentacaoDto.ProdutoId = item.IdProduto;
+                movimentacaoDto.Quantidade = item.Quantidade;
+                concluido = await _movimentacoService.CriarMovimentacaoAsync(movimentacaoDto);
+            }
+
+            if (concluido)
+            {
+                await _vendasContext.AlterarStatusPedidoAsync(pedido.IdPedido, pedido.StatusPedido);
+            }
+        }
+
+        if(pedido.StatusPedido == StatusPedido.Cancelado)
+        {
+            await _vendasContext.AlterarStatusPedidoAsync(pedido.IdPedido, pedido.StatusPedido);
+        } 
     }
 
     public async Task<List<PedidoDto>> ListarPedidosPorFiltroAsync(StatusPedido status, DateTime conclusao)

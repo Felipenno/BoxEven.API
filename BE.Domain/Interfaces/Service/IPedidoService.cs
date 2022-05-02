@@ -8,5 +8,5 @@ public interface IPedidoService
 {
     Task<List<PedidoDto>> ListasPedidosSeparacao();
     Task<List<PedidoDto>> ListarPedidosPorFiltroAsync(StatusPedido status, DateTime conclusao);
-    Task AtualizarStatus(string id, StatusPedido status);
+    Task AtualizarStatus(PedidoAlterarStatusDto pedido);
 }

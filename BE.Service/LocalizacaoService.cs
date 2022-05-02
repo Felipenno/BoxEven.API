@@ -34,7 +34,7 @@ public class LocalizacaoService : ILocalizacaoService
 
         if(localizacao.ProdutoId != null && localizacao.ProdutoId > 0)
         {
-            var produtoLimite = await _localizacaoRepository.ProdutoLimiteAtingidoAsync(localizacao.ProdutoId);
+            var produtoLimite = await _localizacaoRepository.ProdutoLimiteAlocacaoAtingidoAsync(localizacao.ProdutoId);
             if (produtoLimite)
             {
                 return new ResultadoOperacao(false, "Um produto não pode ter mais que 3 locais");
@@ -66,7 +66,7 @@ public class LocalizacaoService : ILocalizacaoService
 
         if (localizacao.ProdutoId != null && localizacao.ProdutoId > 0)
         {
-            var produtoLimite = await _localizacaoRepository.ProdutoLimiteAtingidoAsync(localizacao.ProdutoId);
+            var produtoLimite = await _localizacaoRepository.ProdutoLimiteAlocacaoAtingidoAsync(localizacao.ProdutoId);
             if (produtoLimite)
             {
                 return new ResultadoOperacao(false, "Um produto não pode ter mais que 3 locais");
